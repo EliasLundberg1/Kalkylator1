@@ -1,0 +1,71 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Calculator
+{
+    // Basklass som hanterar inmatningar från användaren
+    // Den är abstrakt för att den inte kan instantieras direkt, utan behöver inmatningen från de andra underklasserna
+    public abstract class Skal
+    {
+        // Abstrakt metod för att få inmatning från användaren
+        public abstract string GetInput(string prompt);
+    }
+
+    // Underklass som ärver från Skal för att hantera nummererna man får av användaren
+    public class NummerHanterare : Skal
+    {
+        // Gör så att man överskriver GetInput-metoden för att hämta ett nummer från användaren med felhantering
+        public override string GetInput(string prompt)
+        {
+            double number;
+            while (true)
+            {
+                Console.WriteLine(prompt);
+                // Försöker konvertera användarens inmatning till ett nummer
+                if (double.TryParse(Console.ReadLine(), out number))
+                {
+                    // Om inmatningen är giltig så returna det som en string
+                    return number.ToString();
+                }
+                else
+                {
+                    // Visar felmeddelande och ber användaren försöka igen utifall de har skrivit fel
+                    Console.WriteLine("Ogiltig inmatning, försök igen.");
+                }
+            }
+        }
+
+        // Metod för att hämta ett nummer från användaren och returnera det som en double
+        public double GetNumber(string prompt)
+        {
+            return double.Parse(GetInput(prompt));
+        }
+    }
+
+    // Underklass som ärver från Skal för att hantera vilket räknesätt användaren vill använda
+    public class Räknesätt : Skal
+    {
+        // Överskriver GetInput-metoden för att hämta en räknesättet från användaren
+        public override string GetInput(string prompt)
+        {
+            Console.WriteLine(prompt);
+            // Returnanr användarens inmatning som en sträng
+            return Console.ReadLine();
+        }
+
+        // Metod för att hämta ett räknesätt från användaren
+        public string GetOperator()
+        {
+            return GetInput("Vilket räknesätt vill du använda (+, -, /, *): ");
+        }
+
+        // Metod för att fråga användaren om de vill fortsätta med sin beräkning
+        public bool AskToContinue()
+        {
+            return GetInput("Vill du göra en ny beräkning? (ja/nej): ").ToLower() == "ja";
+        }
+    }
+}
