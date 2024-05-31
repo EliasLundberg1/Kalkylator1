@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Calculator
+{
+    // Klass för att utföra beräkningar
+    public class Kalkylator
+    {
+        // Metod för att utföra beräkningen baserat på räknesättet
+        public double Calculate(double firstNumber, double secondNumber, string myOperator)
+        {
+            // Switch-sats för att hantera olika räknesätt
+            switch (myOperator)
+            {
+                case "+":
+                    return firstNumber + secondNumber;  // Addition
+                case "-":
+                    return firstNumber - secondNumber;  // Subtraktion
+                case "/":
+                    if (secondNumber != 0)
+                        return firstNumber / secondNumber;  // Division med felhantering
+                    else
+                        throw new DivideByZeroException("Du kan inte dela med 0 dummer");  // Fel vid division med noll
+                case "*":
+                    return firstNumber * secondNumber;  // Multiplikation
+                default:
+                    throw new InvalidOperationException("Du valde ingen av de möjliga räknesätten");  // Fel vid ogiltigt räknesätt
+            }
+        }
+    }
+}
