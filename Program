@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Calculator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            bool continueCalculating = true;                // Variabel för att hålla reda på om användaren vill fortsätta
+            var calculator = new Kalkylator();              // Skapar ett objekt av klassen Calculator för att utföra beräkningar
+            var numberHandler = new NummerHanterare();      // Skapar ett objekt av klassen NummerHanterare för att hantera och verifiera användarens valda nummer
+            var operatorHandler = new Räknesätt();          // Skapar ett objekt av klassen Räknesätt för att hantera och verifiera användarens valda räknesätt (+, -, *, /)
+
+            while (continueCalculating)
+            {
+                try
+                {
+                    // Hämtar det första talet från användaren
+                    double firstNumber = numberHandler.GetNumber("Skriv ditt första nummer");
+                    // Hämtar det andra talet från användaren
+                    double secondNumber = numberHandler.GetNumber("Skriv ditt andra nummer");
+                    // Hämtar räknesättet från användaren
+                    string myOperator = operatorHandler.GetOperator();
+                    // Utför beräkningen baserat på användarens val
+                    double result = calculator.Calculate(firstNumber, secondNumber, myOperator);
+                    // Visar resultatet av beräkningen
+                    Console.WriteLine("Resultat: " + result);
+                }
+                catch (Exception ex)
+                {
+                    // Hanterar eventuella fel och visar felmeddelande
+                    Console.WriteLine("Fel: " + ex.Message);
+                }
+
+                // Frågar användaren om de vill göra en ny beräkning
+                continueCalculating = operatorHandler.AskToContinue();
+            }
+        }
+    }
+}
